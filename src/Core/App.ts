@@ -6,6 +6,8 @@ import {UserModule} from "../Modules/UserModule";
 import {JwtModel} from "../Models/TypeOrm/JwtModel";
 import {JwtService} from "../Services/JwtService";
 import {AuthMiddleware} from "../Middlewares/AuthMiddleware";
+import {ProjectModule} from "../Modules/ProjectModule";
+import {ProjectWebSocketModule} from "../WebSocket/Modules/ProjectWebSocketModule";
 
 @Module({
     imports: [
@@ -15,6 +17,8 @@ import {AuthMiddleware} from "../Middlewares/AuthMiddleware";
         ]),
         ConfigModule.forRoot(),
         UserModule,
+        ProjectModule,
+        ProjectWebSocketModule
     ],
     providers: [
         JwtService
@@ -27,7 +31,7 @@ export class App implements NestModule {
             AuthMiddleware
         ).exclude(
             {
-                path: "user/login",
+                path: "api/user/auth/login",
                 method: RequestMethod.POST
             }
         ).forRoutes("*");

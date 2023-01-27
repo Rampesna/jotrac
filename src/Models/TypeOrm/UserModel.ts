@@ -1,4 +1,14 @@
-import { Entity, Column, PrimaryGeneratedColumn, DeleteDateColumn, OneToMany, JoinColumn } from "typeorm";
+import {
+    Entity,
+    Column,
+    PrimaryGeneratedColumn,
+    DeleteDateColumn,
+    OneToMany,
+    JoinColumn,
+    ManyToMany,
+    JoinTable
+} from "typeorm";
+import {ProjectModel} from "./ProjectModel";
 
 @Entity("users")
 export class UserModel {
@@ -24,5 +34,28 @@ export class UserModel {
 
     @DeleteDateColumn()
     deleted_at: Date;
+
+    @ManyToMany(
+        () => ProjectModel,
+        project => project.users,
+        {
+            onDelete: 'NO ACTION',
+            onUpdate: 'NO ACTION'
+        }
+    )
+    @JoinTable(
+        {
+            name: 'project_user',
+            joinColumn: {
+                name: 'user_id',
+                referencedColumnName: 'id',
+            },
+            inverseJoinColumn: {
+                name: 'project_id',
+                referencedColumnName: 'id',
+            },
+        }
+    )
+    projects?: ProjectModel[];
 }
 
