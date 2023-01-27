@@ -6,6 +6,7 @@ import {UserModel} from "../Models/TypeOrm/UserModel";
 import {GetAllRequest} from "../Requests/UserController/GetAllRequest";
 import {GetByIdRequest} from "../Requests/UserController/GetByIdRequest";
 import {CreateRequest} from "../Requests/UserController/CreateRequest";
+import {RegisterRequest} from "../Requests/UserController/RegisterRequest";
 import {UpdateRequest} from "../Requests/UserController/UpdateRequest";
 import {DeleteRequest} from "../Requests/UserController/DeleteRequest";
 import {TypeOrmQueryService} from "@nestjs-query/query-typeorm";
@@ -78,20 +79,43 @@ export class UserService extends TypeOrmQueryService<UserModel> {
     }
 
     // @ts-ignore
-    getById(GetByIdRequest: GetByIdRequest) {
-        // @ts-ignore
-        return this.userRepository.findOne({
+    async getById(
+        userId: number
+    ) {
+        let user = await this.userRepository.findOne({
             where: {
-                id: GetByIdRequest.id
-            },
-            relations: {
-                //
+                id: userId
             }
         });
+
+        if (user) {
+            return new ServiceResponse(
+                true,
+                "User found",
+                user,
+                200
+            );
+        } else {
+            return new ServiceResponse(
+                false,
+                "User not found",
+                null,
+                404
+            );
+        }
     }
 
     create(CreateRequest: CreateRequest) {
         return `Create user`;
+    }
+
+    register(RegisterRequest: RegisterRequest) {
+        let user = new UserModel();
+        user.name = RegisterRequest.name;
+        user.email = RegisterRequest.email;
+        user.password = RegisterRequest.password;
+
+        return this.userRepository.save(user);
     }
 
     update(UpdateRequest: UpdateRequest) {

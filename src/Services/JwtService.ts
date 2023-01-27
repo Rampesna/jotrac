@@ -56,12 +56,22 @@ export class JwtService extends TypeOrmQueryService<JwtModel> {
         });
 
         if (jwtToken) {
-            return new ServiceResponse(
-                true,
-                "Verified JWT",
-                verify(token, process.env.JWT_SECRET),
-                200
-            );
+            try {
+                let verifiedToken = verify(token, process.env.JWT_SECRET);
+                return new ServiceResponse(
+                    true,
+                    "Verified token",
+                    verifiedToken,
+                    200
+                );
+            } catch (e) {
+                return new ServiceResponse(
+                    false,
+                    "Could not verify token",
+                    null,
+                    404
+                );
+            }
         } else {
             return new ServiceResponse(
                 false,
