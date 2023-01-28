@@ -7,7 +7,7 @@ import {JwtModel} from "../Models/TypeOrm/JwtModel";
 import {JwtService} from "../Services/JwtService";
 import {AuthMiddleware} from "../Middlewares/AuthMiddleware";
 import {ProjectModule} from "../Modules/ProjectModule";
-import {ProjectWebSocketModule} from "../WebSocket/Modules/ProjectWebSocketModule";
+import {WebSocketModule} from "../WebSocket/Core/WebSocketModule";
 
 @Module({
     imports: [
@@ -18,7 +18,7 @@ import {ProjectWebSocketModule} from "../WebSocket/Modules/ProjectWebSocketModul
         ConfigModule.forRoot(),
         UserModule,
         ProjectModule,
-        ProjectWebSocketModule
+        WebSocketModule
     ],
     providers: [
         JwtService
