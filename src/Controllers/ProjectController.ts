@@ -1,7 +1,9 @@
-import {Controller, Get, Post, Put, Body, Delete, Req} from "@nestjs/common";
+import {Controller, Get, Post, Put, Body, Delete, Req, Param, Query} from "@nestjs/common";
 
 import {ProjectService} from "../Services/ProjectService";
+import {GetByIdRequest} from "../Requests/ProjectController/GetByIdRequest";
 import {CreateRequest} from "../Requests/ProjectController/CreateRequest";
+import ServiceResponse from "../Utils/ServiceResponse";
 
 @Controller("project")
 export class ProjectController {
@@ -14,6 +16,14 @@ export class ProjectController {
     @Get("getByUser")
     getByUser(@Req() request) {
         return this.projectService.getByUserId(request.user.id);
+    }
+
+    @Get("getById")
+    getById(@Req() request, @Query() GetByIdRequest: GetByIdRequest) {
+        return this.projectService.getProjectById(
+            GetByIdRequest.id,
+            request.user.id
+        );
     }
 
     @Post("create")

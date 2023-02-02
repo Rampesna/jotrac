@@ -49,6 +49,48 @@ export class ProjectService extends TypeOrmQueryService<ProjectModel> {
         }
     }
 
+    async getProjectById(
+        projectId: number,
+        userId: number
+    ) {
+        let project = await this.projectRepository.findOne({
+            where: {
+                id: projectId
+            },
+            relations: [
+                'users',
+                'status',
+            ]
+        });
+
+        if (project) {
+            let user = project.users.find(user => user.id === userId);
+
+            if (user) {
+                return new ServiceResponse(
+                    true,
+                    "Project",
+                    project,
+                    200
+                );
+            } else {
+                return new ServiceResponse(
+                    false,
+                    "Project not found",
+                    null,
+                    404
+                );
+            }
+        } else {
+            return new ServiceResponse(
+                false,
+                "Project not found",
+                null,
+                404
+            );
+        }
+    }
+
     async create(
         userId: number,
         name: string,
@@ -71,7 +113,6 @@ export class ProjectService extends TypeOrmQueryService<ProjectModel> {
             project.users = [user];
 
             let createdProject = await this.projectRepository.save(project);
-
 
 
             return new ServiceResponse(

@@ -10,6 +10,9 @@ export class ProjectStatusModel {
     name: string;
 
     @Column()
+    color: string;
+
+    @Column()
     created_at: Date;
 
     @Column()
