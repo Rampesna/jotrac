@@ -3,7 +3,6 @@ import {Controller, Get, Post, Put, Body, Delete, Req, Param, Query} from "@nest
 import {ProjectService} from "../Services/ProjectService";
 import {GetByIdRequest} from "../Requests/ProjectController/GetByIdRequest";
 import {CreateRequest} from "../Requests/ProjectController/CreateRequest";
-import ServiceResponse from "../Utils/ServiceResponse";
 
 @Controller("project")
 export class ProjectController {

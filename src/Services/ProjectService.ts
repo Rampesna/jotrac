@@ -76,7 +76,7 @@ export class ProjectService extends TypeOrmQueryService<ProjectModel> {
             } else {
                 return new ServiceResponse(
                     false,
-                    "Project not found",
+                    "You are not a member of this project",
                     null,
                     404
                 );

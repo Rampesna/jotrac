@@ -8,6 +8,7 @@ import {JwtService} from "../Services/JwtService";
 import {AuthMiddleware} from "../Middlewares/AuthMiddleware";
 import {ProjectModule} from "../Modules/ProjectModule";
 import {WebSocketModule} from "../WebSocket/Core/WebSocketModule";
+import {BoardModule} from "../Modules/BoardModule";
 
 @Module({
     imports: [
@@ -18,6 +19,7 @@ import {WebSocketModule} from "../WebSocket/Core/WebSocketModule";
         ConfigModule.forRoot(),
         UserModule,
         ProjectModule,
+        BoardModule,
         WebSocketModule
     ],
     providers: [

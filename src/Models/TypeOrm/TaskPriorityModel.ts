@@ -10,25 +10,8 @@ export class TaskPriorityModel {
     @Column()
     name: string;
 
-    @Column({
-        unsigned: true
-    })
-    order: number;
-
-    @Column({
-        nullable: true
-    })
-    description: string;
-
-    @Column({
-        nullable: true
-    })
-    start_date: Date;
-
-    @Column({
-        nullable: true
-    })
-    end_date: Date;
+    @Column()
+    color: string;
 
     @Column()
     created_at: Date;
@@ -39,10 +22,9 @@ export class TaskPriorityModel {
     @DeleteDateColumn()
     deleted_at: Date;
 
-    @ManyToOne(() => TaskModel, (task) => task.priority)
+    @OneToMany(() => TaskModel, (task) => task.priority)
     @JoinColumn({
         name: "priority_id"
     })
     tasks: TaskModel[];
 }
-
