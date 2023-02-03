@@ -3,14 +3,12 @@ import {TypeOrmModule} from "@nestjs/typeorm";
 import {BoardController} from "../Controllers/BoardController";
 import {BoardService} from "../Services/BoardService";
 import {BoardModel} from "../Models/TypeOrm/BoardModel";
-import {UserModel} from "../Models/TypeOrm/UserModel";
 import {ProjectModel} from "../Models/TypeOrm/ProjectModel";
 
 @Module({
     imports: [
         TypeOrmModule.forFeature([
             BoardModel,
-            UserModel,
             ProjectModel
         ])
     ],

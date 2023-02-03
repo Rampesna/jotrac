@@ -4,7 +4,6 @@ import {Repository} from "typeorm";
 import {TypeOrmQueryService} from "@nestjs-query/query-typeorm";
 import ServiceResponse from "../Utils/ServiceResponse";
 import {BoardModel} from "../Models/TypeOrm/BoardModel";
-import {UserModel} from "../Models/TypeOrm/UserModel";
 import {ProjectModel} from "../Models/TypeOrm/ProjectModel";
 
 @Injectable()
@@ -14,9 +13,7 @@ export class BoardService extends TypeOrmQueryService<BoardModel> {
         @InjectRepository(BoardModel)
         private boardRepository: Repository<BoardModel>,
         @InjectRepository(ProjectModel)
-        private projectRepository: Repository<ProjectModel>,
-        @InjectRepository(UserModel)
-        private userRepository: Repository<UserModel>,
+        private projectRepository: Repository<ProjectModel>
     ) {
         super(boardRepository, {
             useSoftDelete: true,

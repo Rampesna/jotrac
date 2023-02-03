@@ -9,6 +9,7 @@ import {AuthMiddleware} from "../Middlewares/AuthMiddleware";
 import {ProjectModule} from "../Modules/ProjectModule";
 import {WebSocketModule} from "../WebSocket/Core/WebSocketModule";
 import {BoardModule} from "../Modules/BoardModule";
+import {TaskModule} from "../Modules/TaskModule";
 
 @Module({
     imports: [
@@ -20,6 +21,7 @@ import {BoardModule} from "../Modules/BoardModule";
         UserModule,
         ProjectModule,
         BoardModule,
+        TaskModule,
         WebSocketModule
     ],
     providers: [
