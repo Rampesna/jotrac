@@ -52,7 +52,10 @@ export class BoardService extends TypeOrmQueryService<BoardModel> {
                     },
                     relations: [
                         'tasks'
-                    ]
+                    ],
+                    order: {
+                        order: 'ASC'
+                    }
                 });
 
                 return new ServiceResponse(
@@ -142,6 +145,62 @@ export class BoardService extends TypeOrmQueryService<BoardModel> {
             return new ServiceResponse(
                 false,
                 "Project not found",
+                null,
+                404
+            );
+        }
+    }
+
+    async update(
+        userId: number,
+        boardId: number,
+        name: string
+    ) {
+        let board = await this.boardRepository.findOne({
+            where: {
+                id: boardId
+            },
+            relations: [
+                'project',
+                'project.users'
+            ]
+        });
+
+        if (board) {
+            let user = board.project.users.find(user => user.id === userId);
+            if (user) {
+                board.name = name;
+                board.updated_at = new Date();
+
+                let savedBoard = await this.boardRepository.save(board);
+
+                if (savedBoard) {
+                    return new ServiceResponse(
+                        true,
+                        "Board updated",
+                        savedBoard,
+                        200
+                    );
+                } else {
+                    return new ServiceResponse(
+                        false,
+                        "Board could not be updated",
+                        null,
+                        500
+                    );
+                }
+            } else {
+                return new ServiceResponse(
+                    false,
+                    "You are not a member of this project",
+                    null,
+                    404
+                );
+            }
+        } else {
+            return new ServiceResponse(
+                false,
+                "Board not found",
                 null,
                 404
             );
