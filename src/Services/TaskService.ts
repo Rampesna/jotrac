@@ -110,4 +110,45 @@ export class TaskService extends TypeOrmQueryService<TaskModel> {
             );
         }
     }
+
+    async updateOrder(
+        userId: number,
+        tasks: []
+    ) {
+        let oneTask = await this.taskRepository.findOne({
+            where: {
+                // @ts-ignore
+                id: tasks[0].taskId
+            },
+            relations: [
+                'board',
+                'board.project',
+                'board.project.users'
+            ]
+        });
+
+        if (!oneTask) {
+            return new ServiceResponse(
+                false,
+                "Task not found",
+                null,
+                404
+            );
+        }
+
+        let user = oneTask.board.project.users.find(user => user.id === userId);
+        if (!user) {
+            return new ServiceResponse(
+                false,
+                "You are not a member of this project",
+                null,
+                404
+            );
+        }
+
+        for (const task of tasks) {
+            // @ts-ignore
+            await this.taskRepository.update({id: task.taskId}, {order: task.order, board: {id: task.boardId}});
+        }
+    }
 }

@@ -206,4 +206,44 @@ export class BoardService extends TypeOrmQueryService<BoardModel> {
             );
         }
     }
+
+    async updateOrder(
+        userId: number,
+        boards: []
+    ) {
+        let oneBoard = await this.boardRepository.findOne({
+            where: {
+                // @ts-ignore
+                id: boards[0].boardId
+            },
+            relations: [
+                'project',
+                'project.users'
+            ]
+        });
+
+        if (!oneBoard) {
+            return new ServiceResponse(
+                false,
+                "Board not found",
+                null,
+                404
+            );
+        }
+
+        let user = oneBoard.project.users.find(user => user.id === userId);
+        if (!user) {
+            return new ServiceResponse(
+                false,
+                "You are not a member of this project",
+                null,
+                404
+            );
+        }
+
+        for (const board of boards) {
+            // @ts-ignore
+            await this.boardRepository.update({id: board.boardId}, {order: board.order});
+        }
+    }
 }

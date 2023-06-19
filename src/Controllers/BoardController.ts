@@ -4,6 +4,7 @@ import {BoardService} from "../Services/BoardService";
 import {GetByProjectIdWithTasksRequest} from "../Requests/BoardController/GetByProjectIdWithTasksRequest";
 import {CreateRequest} from "../Requests/BoardController/CreateRequest";
 import {UpdateRequest} from "../Requests/BoardController/UpdateRequest";
+import {UpdateOrderRequest} from "../Requests/BoardController/UpdateOrderRequest";
 
 @Controller("board")
 export class BoardController {
@@ -35,6 +36,14 @@ export class BoardController {
             request.user.id,
             UpdateRequest.id,
             UpdateRequest.name
+        );
+    }
+
+    @Put('updateOrder')
+    updateOrder(@Req() request, @Body() UpdateOrderRequest: UpdateOrderRequest) {
+        return this.boardService.updateOrder(
+            request.user.id,
+            UpdateOrderRequest.boards
         );
     }
 }
