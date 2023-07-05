@@ -150,5 +150,12 @@ export class TaskService extends TypeOrmQueryService<TaskModel> {
             // @ts-ignore
             await this.taskRepository.update({id: task.taskId}, {order: task.order, board: {id: task.boardId}});
         }
+
+        return new ServiceResponse(
+            true,
+            "Tasks updated",
+            null,
+            200
+        );
     }
 }

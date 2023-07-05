@@ -245,5 +245,12 @@ export class BoardService extends TypeOrmQueryService<BoardModel> {
             // @ts-ignore
             await this.boardRepository.update({id: board.boardId}, {order: board.order});
         }
+
+        return new ServiceResponse(
+            true,
+            "Boards updated",
+            null,
+            200
+        );
     }
 }

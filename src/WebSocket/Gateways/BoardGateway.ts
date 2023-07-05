@@ -7,10 +7,8 @@ export class BoardGateway {
 
     @SubscribeMessage('updateBoard')
     updateBoard(client, data): void {
-        console.log(data)
+        console.log('updateBoard');
 
-        this.server.emit('onBoardUpdate', {
-            test: 'onBoardUpdate'
-        });
+        this.server.emit('onBoardUpdate');
     }
 }
